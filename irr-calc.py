@@ -16,9 +16,10 @@ irr_data = {}
 
 srcs = {
     u'投资': 1,
-    u'分红': 2,
-    u'估值': 3,
-    u'退出': 4}
+    u'支出': 2,
+    u'分红': 3,
+    u'估值': 4,
+    u'退出': 5}
 
 """
 fill_yellow = PatternFill(fill_type=None,
