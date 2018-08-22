@@ -21,22 +21,27 @@ srcs = {
     u'估值': 4,
     u'退出': 5}
 
-"""
-fill_yellow = PatternFill(fill_type=None,
-    start_color='FFFFFF00',
-    end_color='FF000000')
-"""
-
 fill_yellow = PatternFill('solid', fgColor="FFFF00")
 
 for nrow, row in enumerate(wsi.rows):
     if nrow == 0:
         continue
-    if row[0].value is None:
+    if row[0].value is None and row[1].value is None:  # doc end
         break
     corp1 = row[0].value
     corp2 = row[1].value
 
+    # read into mem
+    """
+    corp2_1:
+        invest: [['c1_1', amount, dt], ['c1_2', amount, dt]]
+        fenhong:
+        tuichu:
+    corp2_2:
+        invest: []
+        fenhong: []
+        tuichu: []
+    """
     for src in srcs:
         offset = srcs[src]
         amount = row[2*offset + 1].value
@@ -52,6 +57,7 @@ for nrow, row in enumerate(wsi.rows):
                 irr_data[corp2][src] = []
             irr_data[corp2][src].append([corp1, amount, dt])
 
+# output
 wso = wbi.create_sheet('summary')
 wso.append(['']*5 + [u'折现率:', 0.1])
 wso.cell(row=wso.max_row, column=6).fill = fill_yellow
@@ -80,15 +86,3 @@ for corp2 in irr_data:
 
 
 wbi.save(WB_PTH2)
-
-"""
-corp2_1:
-    invest: [['c1_1', amount, dt], ['c1_2', amount, dt]]
-    fenhong:
-    tuichu:
-
-corp2_2:
-    invest: []
-    fenhong: []
-    tuichu: []
-"""
